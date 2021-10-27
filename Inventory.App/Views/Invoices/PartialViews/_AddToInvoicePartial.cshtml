@@ -1,0 +1,13 @@
+﻿@model  Inventory.App.ViewModels.ProductsViewModel
+
+
+@using (Ajax.BeginForm("AddToInvoice", "Invoices", new AjaxOptions { HttpMethod = "POST", LoadingElementId = "progress", OnSuccess = "OnAddToInvoiceSucess", OnBegin = "OnAddToInvoiceBegin", OnFailure = "OnAddToInvoiceFailure" }))
+{
+    @Html.AntiForgeryToken()
+@Html.HiddenFor(m => m.ProductId)
+@Html.HiddenFor(m => m.ProductName)
+@Html.HiddenFor(m => m.QuantityInStock)
+@Html.HiddenFor(m => m.UnitPrice)
+<button type="submit" id="addToCart" class="btn btn-info"> <span class="glyphicon glyphicon-plus"></span> To Invoice</button>
+}
+

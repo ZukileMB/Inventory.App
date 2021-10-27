@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Inventory.App.ViewModels.ProductsViewModel>
+
+@{
+    ViewBag.Title = "AddItems";
+}
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<div class="form-horizontal">
+
+    <div class="col-sm-12">
+        @foreach (var item in Model)
+        {
+
+            <div class="col-sm-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        @item.ProductName
+                    </div>
+                    <div class="panel-body">
+                        @item.UnitPrice
+                    </div>
+                    <div class="panel-footer">
+                        @{ Html.RenderAction("AddToInvoiceAction", "Invoices", item);}
+                    </div>
+                </div>
+            </div>
+
+            @*<tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.QuantityInStock)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UnitPrice)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    </td>
+                </tr>*@
+        }
+        </div>
+    <div class="container">
+        @{ Html.RenderAction("DisplayInvoiceItems", "Invoices");}
+    </div>
+    </div>
+

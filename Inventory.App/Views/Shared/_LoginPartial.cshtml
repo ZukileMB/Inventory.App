@@ -1,0 +1,26 @@
+﻿<ul class="nav navbar-nav navbar-right">
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        <li>
+            @Html.ActionLink(User.Identity.Name, "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+        </li>
+
+        <li>
+            @Html.ActionLink("Products", "Index", "Product", routeValues: null, htmlAttributes: new { })
+        </li>
+        <li>
+            @Html.ActionLink("Invoices", "Index", "Invoices", routeValues: null, htmlAttributes: new { })
+        </li>
+
+        <li>@Html.ActionLink("Log out", "Logout", "Account", routeValues: null, htmlAttributes: new { id = "logoutLink" })</li>
+
+
+    }
+    else
+    {
+        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+    }
+
+</ul>
