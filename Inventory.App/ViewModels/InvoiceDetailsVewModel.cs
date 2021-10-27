@@ -16,7 +16,7 @@ namespace Inventory.App.ViewModels
         public int Id { get; set; }
         [DisplayName("Invoice Id ")]
         public int InvoiceId { get; set; }
-        [DisplayName("Product ")]
+        [DisplayName("Product Id")]
         public int ProductId { get; set; }
         [DisplayName("Quantity Sold ")]
         public int QuantitySold { get; set; }
