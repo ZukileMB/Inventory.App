@@ -97,6 +97,11 @@ namespace Inventory.App.Controllers
             return View(productsViewModel);
         }
 
+        /// <summary>
+        /// Edit 
+        /// </summary>
+        /// <param name="productsViewModel"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(ProductsViewModel productsViewModel)
