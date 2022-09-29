@@ -37,7 +37,7 @@ namespace Inventory.App.Controllers
             }
             catch (Exception ex)
             {
-
+                throw new Exception("Cannot open Invoice Details page");
             }
             return View(list);
 
@@ -51,23 +51,33 @@ namespace Inventory.App.Controllers
             //DbContext.SaveChanges();AddToInvoiceAction
             return RedirectToAction("AddItems");
         }
+
+        /// <summary>
+        /// Partial view to display invoice
+        /// </summary>
+        /// <param name="productsViewModel"></param>
+        /// <returns></returns>
         public PartialViewResult AddToInvoiceAction(ProductsViewModel productsViewModel)
         {
 
             return PartialView("~/Views/Invoices/PartialViews/_AddToInvoicePartial.cshtml", productsViewModel);
         }
 
+        /// <summary>
+        /// Add new products 
+        /// </summary>
+        /// <returns></returns>
         public ActionResult AddItems()
         {
             var list = new List<ProductsViewModel>();
             try
             {
-                var DBcontext = new DatabaseContext();
-                var ProductList = DBcontext.Products;
+                DatabaseContext DBcontext = new DatabaseContext();
+                List<Products> ProductList = DBcontext.Products.ToList();
 
-                foreach (var product in ProductList)
+                foreach (Products product in ProductList)
                 {
-                    var tempProduct = new ProductsViewModel
+                    ProductsViewModel tempProduct = new ProductsViewModel
                     {
                         ProductId = product.ProductId,
                         ProductName = product.ProductName,
@@ -83,19 +93,17 @@ namespace Inventory.App.Controllers
             }
             return View(list);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult AddItems(InvoiceDetailsVewModel invoiceDetailsVewModel)
         {
-
             try
             {
-                if (ModelState.IsValid)
+                if (!ModelState.IsValid)
                 {
-
-
+                    ModelState.AddModelError(" ", "Incorrect details");
                 }
-                ModelState.AddModelError(" ", "Incorrect details");
             }
             catch
             {
@@ -126,6 +134,11 @@ namespace Inventory.App.Controllers
             }
             return RedirectToAction("AddItems");
         }
+
+        /// <summary>
+        /// Partial that display Items in the Invoice view
+        /// </summary>
+        /// <returns></returns>
         public PartialViewResult DisplayInvoiceItems()
         {
             List<InvoiceDetailsVewModel> lstInvoiceDetails = SessionContext.InvoiceItems.GroupBy(m => m.ProductId).Select(prd => new InvoiceDetailsVewModel

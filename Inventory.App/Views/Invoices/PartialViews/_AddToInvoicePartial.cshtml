@@ -1,7 +1,8 @@
 ﻿@model  Inventory.App.ViewModels.ProductsViewModel
 
 
-@using (Ajax.BeginForm("AddToInvoice", "Invoices", new AjaxOptions { HttpMethod = "POST", LoadingElementId = "progress", OnSuccess = "OnAddToInvoiceSucess", OnBegin = "OnAddToInvoiceBegin", OnFailure = "OnAddToInvoiceFailure" }))
+@using (Ajax.BeginForm("AddToInvoice", "Invoices", 
+    new AjaxOptions { HttpMethod = "POST", LoadingElementId = "progress", OnSuccess = "OnAddToInvoiceSucess", OnBegin = "OnAddToInvoiceBegin", OnFailure = "OnAddToInvoiceFailure" }))
 {
     @Html.AntiForgeryToken()
 @Html.HiddenFor(m => m.ProductId)

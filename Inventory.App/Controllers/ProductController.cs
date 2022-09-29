@@ -1,5 +1,6 @@
 ﻿using Inventory.App.Models;
 using Inventory.App.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
@@ -15,7 +16,7 @@ namespace Inventory.App.Controllers
             var list = new List<ProductsViewModel>();
             try
             {
-                var DBcontext = new DatabaseContext();
+                DatabaseContext DBcontext = new DatabaseContext();
                 var ProductList = DBcontext.Products;
 
                 foreach (var product in ProductList)
@@ -30,9 +31,9 @@ namespace Inventory.App.Controllers
                     list.Add(tempProduct);
                 }
             }
-            catch
+            catch (Exception ex)
             {
-
+                throw new Exception("An error occured can't load the page </ br>" + ex.Message);
             }
             return View(list);
         }
@@ -42,6 +43,12 @@ namespace Inventory.App.Controllers
         {
             return View();
         }
+
+        /// <summary>
+        /// Add new product
+        /// </summary>
+        /// <param name="productsViewModel"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(ProductsViewModel productsViewModel)
@@ -77,8 +84,8 @@ namespace Inventory.App.Controllers
             var productsViewModel = new ProductsViewModel();
             try
             {
-                var DbContext = new DatabaseContext();
-                var product = DbContext.Products.Where(n => n.ProductId == id).FirstOrDefault();
+                DatabaseContext DbContext = new DatabaseContext();
+                Products product = DbContext.Products.Where(n => n.ProductId == id).FirstOrDefault();
 
                 if (product != null)
                 {
@@ -98,7 +105,7 @@ namespace Inventory.App.Controllers
         }
 
         /// <summary>
-        /// Edit 
+        /// Edit records on the Cat
         /// </summary>
         /// <param name="productsViewModel"></param>
         /// <returns></returns>
@@ -135,29 +142,32 @@ namespace Inventory.App.Controllers
             }
             return View();
         }
-        
+
+        /// <summary>
+        /// Delete Record  
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ActionResult Delete(int id)
         {
 
             try
             {
-               
-                    var DbContext = new DatabaseContext();
-                    var product = DbContext.Products.Where(x => x.ProductId == id).FirstOrDefault();
-                    if (product == null)
-                    {
-                        ModelState.AddModelError("", "Error when trying to delete record!");
-                        return View();
-                    }
-                    DbContext.Products.Remove(product);
-                    DbContext.SaveChanges();
-                    return RedirectToAction("Index");
-                
-     
+                DatabaseContext DbContext = new DatabaseContext();
+                Products product = DbContext.Products.Where(x => x.ProductId == id).FirstOrDefault();
+                if (product == null)
+                {
+                    ModelState.AddModelError("", "Error when trying to delete record!");
+                    return View();
+                }
+                DbContext.Products.Remove(product);
+                DbContext.SaveChanges();
+                return RedirectToAction("Index");
+
             }
             catch
             {
-           
+
             }
             return View();
         }
